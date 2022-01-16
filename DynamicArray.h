@@ -3,8 +3,11 @@
 #define DYNAMIC_ARRAY_H
 
 // TODO:
-//		4) method Size() to get the array size;
-//
+//	1) add Remove method;
+//	2) add Replace(const T& newValue, const unsigned long long index) method ;
+//	3) add Find(const T& value) method;
+//	4) add Sort methodl
+//	5) add reverse method;
 
 namespace DynamicArray
 {
