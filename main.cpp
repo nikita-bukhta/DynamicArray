@@ -1,23 +1,23 @@
 #include <iostream>
-#include <string>
+#include <vector>
 
 #include "DynamicArray.h"
 	#include "DynamicArray.cpp" // to fix Linker Tools Error LNK2019
 
 int main(int argc, char** argv)
 {
-	
-	Array<int> array;
-	Array<int> array2;
-	
+	DynamicArray::Array<unsigned long long> array;
 	for (auto i = 0; i < 10; i++)
 	{
 		array.PushBack(i);
-		array2.PushBack(i);
 	}
 
-	auto array3 = array + array2;
-	array3.ShowInfo();
+	array.ShowInfo();
+	std::cout << array.Size() << std::endl;
+	array.Insert(99, 0);
+	std::cout << array.Size() << std::endl;
+	std::cout << "-------------------------------------" << std::endl;
+	array.ShowInfo();
 
 	std::system("pause");
 
