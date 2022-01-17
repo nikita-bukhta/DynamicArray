@@ -19,6 +19,59 @@ bool DynamicArray::Array<T>::IndexInRange(const unsigned long long index, bool i
 	return true;
 }
 
+template<class T>
+void DynamicArray::Array<T>::ShellSort(void)
+{
+	// Start with a big gap, then reduce the gap
+	for (unsigned long long gap = _size / 2; gap > 0; gap /= 2)
+	{
+		// Do a gapped insertion sort for this gap size.
+		// The first gap elements a[0..gap-1] are already in gapped order
+		// keep adding one more element until the entire array is
+		// gap sorted
+		for (unsigned long long i = gap; i < _size; i += 1)
+		{
+			// add a[i] to the elements that have been gap sorted
+			// save a[i] in temp and make a hole at position i
+			T temp = _array[i];
+
+			// shift earlier gap-sorted elements up until the correct
+			// location for a[i] is found
+			unsigned long long j;
+			for (j = i; (j >= gap) && (_array[j - gap] > temp); j -= gap)
+				_array[j] = _array[j - gap];
+
+			// put temp (the original a[i]) in its correct location
+			_array[j] = temp;
+		}
+	}
+}
+template<class T>
+void DynamicArray::Array<T>::QuickSort(unsigned long long low, unsigned long long high)
+{
+	unsigned long long i = low;
+	unsigned long long j = high;
+	T pivot = _array[(i + j) / 2];
+
+	while (i <= j)
+	{
+		while (_array[i] < pivot)
+			++i;
+		while (_array[j] > pivot)
+			--j;
+		if (i <= j)
+		{
+			Swap(i, j);
+			++i;
+			--j;
+		}
+	}
+	if (j > low)
+		QuickSort(low, j);
+	if (i < high)
+		QuickSort(i, high);
+}
+
 template <class T>
 Array<T>::Array()
 {
@@ -172,6 +225,34 @@ template<class T>
 unsigned long long DynamicArray::Array<T>::Size(void) const
 {
 	return _size;
+}
+
+template<class T>
+void DynamicArray::Array<T>::Swap(const unsigned long long firstIndex, const unsigned long long secondIndex)
+{
+	if (IndexInRange(firstIndex) && IndexInRange(secondIndex))
+	{
+		T temp = _array[firstIndex];
+		_array[firstIndex] = _array[secondIndex];
+		_array[secondIndex] = temp;
+	}
+}
+
+
+template<class T>
+void DynamicArray::Array<T>::Swap(Array<T>& other)
+{
+	auto temp = other;
+	other = *this;
+	*this = temp;
+}
+
+template<class T>
+void DynamicArray::Array<T>::Sort(void)
+{
+	_size <= 500 ?
+		ShellSort() : 
+		QuickSort(0, (_size - 1));
 }
 
 template<class T>

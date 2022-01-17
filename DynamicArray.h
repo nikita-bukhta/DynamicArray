@@ -3,9 +3,7 @@
 #define DYNAMIC_ARRAY_H
 
 // TODO:
-//	2) add Replace(const T& newValue, const unsigned long long index) method ;
 //	3) add Find(const T& value) method;
-//	4) add Sort methodl
 //	5) add reverse method;
 
 namespace DynamicArray
@@ -36,6 +34,21 @@ namespace DynamicArray
 		//
 		// DynamicArray.h
 		bool IndexInRange(const unsigned long long index, bool includeAddingNewElement = false);
+
+		// For array up tp 500 elements;
+		//
+		// DynamicArray.h
+		void ShellSort(void);
+
+		// For array more than 500 elemets;
+		//
+		// low - current min index (when you call it
+		//	input 0 for max speed);
+		// max - current max index (when you call it
+		//	input _size - 1 for max speed)
+		//
+		// DynamicArray.h
+		void QuickSort(unsigned long long low, unsigned long long high);
 
 	public:
 		// DynamicArray.h
@@ -110,6 +123,32 @@ namespace DynamicArray
 
 		// Return count of elements in array;
 		unsigned long long Size(void) const;
+
+		// Swap to elements in array by indexes;
+		//
+		// firstIndex - index of first element;
+		// secondIndex - index of second element;
+		//
+		// throw std::out_of_range exception if indexes
+		//	are out of range;
+		//
+		// DynamicArray.h
+		void Swap(const unsigned long long firstIndex, const unsigned long long secondIndex);
+
+
+		// Swap two arrays;
+		//
+		// other - second array with whom we want to
+		//	swap first array;
+		//
+		// throw std::out_of_range exception if indexes
+		//	are out of range;
+		//
+		// DynamicArray.h
+		void Swap(Array<T>& other);
+
+		// Sort elements;
+		void Sort(void);
 
 		// get element of _array;
 		T& operator[](const unsigned long long index) const;
