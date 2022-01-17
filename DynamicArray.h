@@ -3,7 +3,6 @@
 #define DYNAMIC_ARRAY_H
 
 // TODO:
-//	1) add Remove method;
 //	2) add Replace(const T& newValue, const unsigned long long index) method ;
 //	3) add Find(const T& value) method;
 //	4) add Sort methodl
@@ -66,7 +65,7 @@ namespace DynamicArray
 		T At(const unsigned long long index) const;
 
 		// insert element into our array between
-		//	_array[index - 1] && _array[index + 1]
+		//	_array[index - 1] && _array[index + 1];
 		//
 		// index - where we want to insert element;
 		// value - what we want to insert;
@@ -75,8 +74,19 @@ namespace DynamicArray
 		//	is out of range;
 		//
 		// DynamicArray.h
-		void Insert(const T& value, unsigned long long index);
+		void Insert(const T& value, const unsigned long long index);
 
+		// Remove element from array by index;
+		//
+		// index - which element we want to remove by this index;
+		//
+		// throw std::out_of_range exception if index
+		//	is out of range;
+		//
+		// DynamicArray.h
+		void Remove(const unsigned long long index);
+
+		// Return count of elements in array;
 		unsigned long long Size(void) const;
 
 		// get element of _array;

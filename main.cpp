@@ -10,13 +10,10 @@ int main(int argc, char** argv)
 	for (auto i = 0; i < 10; i++)
 	{
 		array.PushBack(i);
+		if (i % 3 != 0)
+			array.Remove(array.Size() - 1);
 	}
 
-	array.ShowInfo();
-	std::cout << array.Size() << std::endl;
-	array.Insert(99, 0);
-	std::cout << array.Size() << std::endl;
-	std::cout << "-------------------------------------" << std::endl;
 	array.ShowInfo();
 
 	std::system("pause");

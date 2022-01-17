@@ -1,6 +1,7 @@
 #include "DynamicArray.h"
 
 #include <iostream>
+#include <string>
 #include <stdexcept>
 
 using namespace DynamicArray;
@@ -96,14 +97,16 @@ T DynamicArray::Array<T>::At(const unsigned long long index) const
 	if (index < _size)
 		return *(_array + index);
 
-	throw std::out_of_range("Index out of range");
+	throw std::out_of_range("Index (" + std::to_string(index) +
+		") out of range ([0; " + std::to_string(_size) + "))!");
 }
 
 template<class T>
-void DynamicArray::Array<T>::Insert(const T& value, unsigned long long index)
+void DynamicArray::Array<T>::Insert(const T& value, const unsigned long long index)
 {
 	if (index > _size)
-		throw std::out_of_range("Index out of range!");
+		throw std::out_of_range("Index (" + std::to_string(index) +
+			") out of range ([0; " + std::to_string(_size) + "))!");
 
 	++_size;
 	T* newArray = new T[_size];
@@ -122,6 +125,29 @@ void DynamicArray::Array<T>::Insert(const T& value, unsigned long long index)
 	// clear our array in order to escape the memory leak;
 	this->~Array();
 	_array = newArray;
+}
+
+template<class T>
+void DynamicArray::Array<T>::Remove(const unsigned long long index)
+{
+	if (index >= _size)
+		throw std::out_of_range("Index (" + std::to_string(index) + 
+			") out of range ([0; " + std::to_string(_size) + "))!");
+
+	const unsigned long long newSize = _size - 1;
+	T* newArray = new T[newSize];
+
+	unsigned long long i;
+	for (i = 0; i < index; ++i)
+		newArray[i] = _array[i];
+
+	for (++i; i < _size; ++i)
+		newArray[i - 1] = _array[i];
+
+	// clear our array in order to escape the memory leak;
+	this->~Array();
+	_array = newArray;
+	_size = newSize;
 }
 
 template<class T>
