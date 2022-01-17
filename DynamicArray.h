@@ -27,6 +27,16 @@ namespace DynamicArray
 		// DynamicArray.h
 		Array(const unsigned long long size, T array[]);
 
+		// If	index in range return true;
+		// Else throw exception;
+		//
+		// index - which index we check;
+		// includeAddingNewElement - check if we want to
+		//	check if index == _size;
+		//
+		// DynamicArray.h
+		bool IndexInRange(const unsigned long long index, bool includeAddingNewElement = false);
+
 	public:
 		// DynamicArray.h
 		Array();
@@ -54,7 +64,7 @@ namespace DynamicArray
 		// DynamicArray.h
 		void ShowInfo(void) const;
 
-		// return value in array by index if it is exist;
+		// return COPPY of value in array by index if it is exist;
 		// 
 		// const unsigned long long index - index of element;
 		// 
@@ -74,7 +84,7 @@ namespace DynamicArray
 		//	is out of range;
 		//
 		// DynamicArray.h
-		void Insert(const T& value, const unsigned long long index);
+		void Insert(const unsigned long long index, const T& value);
 
 		// Remove element from array by index;
 		//
@@ -85,6 +95,18 @@ namespace DynamicArray
 		//
 		// DynamicArray.h
 		void Remove(const unsigned long long index);
+
+		// Change element of array with specified index to
+		//	specified value;
+		//
+		// value - what we want to paste;
+		// index - where we want to replace;
+		//
+		// throw std::out_of_range exception if index
+		//	is out of range;
+		//
+		// DynamicArray.h
+		void Replace(const unsigned long long index, const T& value);
 
 		// Return count of elements in array;
 		unsigned long long Size(void) const;

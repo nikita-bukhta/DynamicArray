@@ -10,10 +10,12 @@ int main(int argc, char** argv)
 	for (auto i = 0; i < 10; i++)
 	{
 		array.PushBack(i);
-		if (i % 3 != 0)
-			array.Remove(array.Size() - 1);
 	}
 
+	array.ShowInfo();
+	array.Insert(10, 54);
+	array.Replace(-1, 32);
+	std::cout << "-------------" << std::endl;
 	array.ShowInfo();
 
 	std::system("pause");

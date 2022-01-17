@@ -6,6 +6,19 @@
 
 using namespace DynamicArray;
 
+// includeAddingNewElement = false by defalt
+//	but compiler don't allow write it in header
+//	and cpp files;
+template<class T>
+bool DynamicArray::Array<T>::IndexInRange(const unsigned long long index, bool includeAddingNewElement)
+{
+	if ((includeAddingNewElement && index > _size) || (!includeAddingNewElement && index >= _size))
+		throw std::out_of_range("Index (" + std::to_string(index) +
+			") out of range ([0; " + std::to_string(_size) + "))!");
+
+	return true;
+}
+
 template <class T>
 Array<T>::Array()
 {
@@ -102,52 +115,57 @@ T DynamicArray::Array<T>::At(const unsigned long long index) const
 }
 
 template<class T>
-void DynamicArray::Array<T>::Insert(const T& value, const unsigned long long index)
+void DynamicArray::Array<T>::Insert(const unsigned long long index, const T& value)
 {
-	if (index > _size)
-		throw std::out_of_range("Index (" + std::to_string(index) +
-			") out of range ([0; " + std::to_string(_size) + "))!");
-
-	++_size;
-	T* newArray = new T[_size];
-
-	unsigned long long i;
-	for (i = 0; i < index; ++i)
-		newArray[i] = _array[i];
-
-	newArray[i] = value;
-
-	for (++i; i < _size; ++i)
+	if (IndexInRange(index, true))
 	{
-		newArray[i] = _array[i - 1];
-	}
+		++_size;
+		T* newArray = new T[_size];
 
-	// clear our array in order to escape the memory leak;
-	this->~Array();
-	_array = newArray;
+		unsigned long long i;
+		for (i = 0; i < index; ++i)
+			newArray[i] = _array[i];
+
+		newArray[i] = value;
+
+		for (++i; i < _size; ++i)
+		{
+			newArray[i] = _array[i - 1];
+		}
+
+		// clear our array in order to escape the memory leak;
+		this->~Array();
+		_array = newArray;
+	}
 }
 
 template<class T>
 void DynamicArray::Array<T>::Remove(const unsigned long long index)
 {
-	if (index >= _size)
-		throw std::out_of_range("Index (" + std::to_string(index) + 
-			") out of range ([0; " + std::to_string(_size) + "))!");
+	if (IndexInRange(index))
+	{
+		const unsigned long long newSize = _size - 1;
+		T* newArray = new T[newSize];
 
-	const unsigned long long newSize = _size - 1;
-	T* newArray = new T[newSize];
+		unsigned long long i;
+		for (i = 0; i < index; ++i)
+			newArray[i] = _array[i];
 
-	unsigned long long i;
-	for (i = 0; i < index; ++i)
-		newArray[i] = _array[i];
+		for (++i; i < _size; ++i)
+			newArray[i - 1] = _array[i];
 
-	for (++i; i < _size; ++i)
-		newArray[i - 1] = _array[i];
+		// clear our array in order to escape the memory leak;
+		this->~Array();
+		_array = newArray;
+		_size = newSize;
+	}
+}
 
-	// clear our array in order to escape the memory leak;
-	this->~Array();
-	_array = newArray;
-	_size = newSize;
+template<class T>
+void DynamicArray::Array<T>::Replace(const unsigned long long index, const T& value)
+{
+	if (IndexInRange(index))
+		_array[index] = value;
 }
 
 template<class T>
